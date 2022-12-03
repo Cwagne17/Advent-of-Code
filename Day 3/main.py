@@ -41,9 +41,9 @@ part2 = 0
 with open('input.txt') as fin:
     data = [ln.replace('\n', '') for ln in fin.readlines()] # removes newline character (previously each rucksack was odd length)
     for rucksack in data:
-        part1 += getPriority(getSharedItem(rucksack[:len(rucksack)//2], rucksack[len(rucksack)//2:]))
-    print(part1)
+        part1 += getPriority(getSharedItem(rucksack[:len(rucksack)//2], rucksack[len(rucksack)//2:])) # len(rucksack)//2 will take the length of the total rucksack and do integer division to find half the size
+    print("Sum of priorities for part 1: {part1}")
 
-    for group in list(zip(*[iter(data)]*3)):
+    for group in list(zip(*[iter(data)]*3)): # zip() creates chunks of size 3 and is typecast to list() to become iterable
         part2 += getPriority(getGroupBadge(list(group)[0], list(group)[1], list(group)[2]))
-    print(part2)
+    print(f"Sum of priorities for part 2: {part2}")
