@@ -7,19 +7,24 @@ def get_dir_size(directory: str):
     return sum(filesystem[directory].values())
 
 with open('input.txt') as fin:
-    for ln in [ln.replace('\n', '') for ln in fin.readlines()]:
+    for ln in [ln.replace('\n', '') for ln in fin.readlines()]: # iterates over lines and filters out \n
+        split_ln = ln.split(" ")
+        
+        # Case 1: Change Directory
+        #   input format "$ cd directory"
         if ln.startswith("$ cd"):
-            directory = ln.split(" ")[2]
-            if directory == "..":
-                cwd.pop()
-            else:
-                cwd.append(directory)
-            absolute_path = "/"+"/".join(cwd[1:])
-            if absolute_path not in filesystem:
-                filesystem[absolute_path] = {}
-        elif ln.split(" ")[0].isnumeric(): # catches if it is a file
-            if ln.split(" ")[1] not in filesystem[absolute_path]:
-                filesystem[absolute_path][ln.split(" ")[1]] = int(ln.split(" ")[0])
+            directory = split_ln[2] # gets directory name from line
+            cwd.pop() if directory == ".." else cwd.append(directory) # uses cwd stack to track current working directory 
+            abs_path = "/"+"/".join(cwd[1:]) # creates string identifier for cwd that is absolute path
+            if abs_path not in filesystem: 
+                filesystem[abs_path] = {} # initializes an empty dir with the abs_path
+        
+        # Case 2: File with size
+        #   input format "number filename"
+        elif split_ln[0].isnumeric():
+            size, filename = split_ln
+            if filename not in filesystem[abs_path]:
+                filesystem[abs_path][filename] = int(size)
 
 dir_sizes = {}
 for k in filesystem.keys():
