@@ -1,29 +1,24 @@
 def part_one(input, red, green, blue):
-    sum = 0
+    total_sum = 0
 
     for line in input:
-        game = line.split(": ")
+        game_number, cubes_list = line.split(": ")
+        game_number = int(game_number.split(" ")[1])
 
-        game_number = game[0].split(" ")[1]
-
-        flag = True
-
-        for handful in game[1].split("; "):
-            for cubes in handful.split(", "):
-                count = cubes.split(" ")[0]
-                color = cubes.split(" ")[1]
-
-                if color == "red" and int(count) > red:
-                    flag = False
-                elif color == "green" and int(count) > green:
-                    flag = False
-                elif color == "blue" and int(count) > blue:
-                    flag = False
+        flag = all(
+            int(count) <= red
+            if color == "red"
+            else int(count) <= green
+            if color == "green"
+            else int(count) <= blue
+            for handful in cubes_list.split("; ")
+            for count, color in (cube.split(" ") for cube in handful.split(", "))
+        )
 
         if flag:
-            sum += int(game_number)
+            total_sum += game_number
 
-    return sum
+    return total_sum
 
 
 def part_two(input):
