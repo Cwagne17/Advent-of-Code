@@ -16,7 +16,7 @@ with open("input.txt") as fin:
                     local_j = j
                 potential_part_number += column
             else:
-                if column in SYMBOLS:
+                if column != ".":
                     symbols.add((i, j, j, column))
 
                 if potential_part_number != "":
@@ -43,16 +43,12 @@ with open("input.txt") as fin:
                 (-1, 1),
                 (-1, -1),
             ]
-            flag = False
             for x_offset, y_offset in directions:
                 if symbol[0] + x_offset == part[0] and symbol[1] + y_offset in range(
                     part[1], part[2] + 1
                 ):
-                    flag = True
-
-            if flag:
-                if part not in seen:
-                    seen.add(part)
+                    if part not in seen:
+                        seen.add(part)
 
 sum = 0
 for part in seen:
