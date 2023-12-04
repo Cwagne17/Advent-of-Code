@@ -66,17 +66,17 @@ with open("example.txt") as f:
                         + lines[i - 1][j]
                         + upper_right_part_number
                     )
-                    part_numbers.add((i, local_j2, part_number))
+                    part_numbers.add((i - 1, local_j2, part_number))
                 elif (
                     upper_left_part_number
-                    and (i, local_j2, upper_left_part_number) not in part_numbers
+                    and (i - 1, local_j2, upper_left_part_number) not in part_numbers
                 ):
-                    part_numbers.add((i, local_j2, upper_left_part_number))
+                    part_numbers.add((i - 1, local_j2, upper_left_part_number))
                 elif (
                     upper_right_part_number
-                    and (i, local_j1, upper_right_part_number) not in part_numbers
+                    and (i - 1, local_j1, upper_right_part_number) not in part_numbers
                 ):
-                    part_numbers.add((i, local_j1, upper_right_part_number))
+                    part_numbers.add((i - 1, local_j1, upper_right_part_number))
 
                 # Check down
 
@@ -93,20 +93,22 @@ with open("example.txt") as f:
                         + lines[i + 1][j]
                         + lower_right_part_number
                     )
-                    part_numbers.add((i, local_j2, part_number))
+                    part_numbers.add((i + 1, local_j2, part_number))
                 elif (
                     lower_left_part_number
-                    and (i, local_j2, lower_left_part_number) not in part_numbers
+                    and (i + 1, local_j2, lower_left_part_number) not in part_numbers
                 ):
-                    part_numbers.add((i, local_j2, lower_left_part_number))
+                    part_numbers.add((i + 1, local_j2, lower_left_part_number))
                 elif (
                     lower_right_part_number
-                    and (i, local_j1, lower_right_part_number) not in part_numbers
+                    and (i + 1, local_j1, lower_right_part_number) not in part_numbers
                 ):
-                    part_numbers.add((i, local_j1, lower_right_part_number))
+                    part_numbers.add((i + 1, local_j1, lower_right_part_number))
 
-    sum = 0
-    for i, j, part_number in list(part_numbers):
-        print(part_number)
-        sum += int(part_number)
-    print(sum)
+    for part in part_numbers:
+        print(part)
+    # sum = 0
+    # for i, j, part_number in list(part_numbers):
+    #     print(part_number)
+    #     sum += int(part_number)
+    # print(sum)
