@@ -27,8 +27,6 @@ def part_one(scratchcards):
 
 
 def part_two(scratchcards):
-    prize = 0
-
     winning_tracker = [0] * len(scratchcards)
 
     for scratchcard in scratchcards:
@@ -44,11 +42,9 @@ def part_two(scratchcards):
 
     # Iterate backwards through the winning tracker
     for i in range(len(winning_tracker) - 1, -1, -1):
-        wins = winning_tracker[i]
-        impact = wins
-        for j in range(wins):
-            impact += winning_tracker[i + j + 1]
-        winning_tracker[i] = impact
+        winning_tracker[i] += sum(
+            winning_tracker[i + j + 1] for j in range(winning_tracker[i])
+        )
 
     return sum(winning_tracker) + len(scratchcards)
 
