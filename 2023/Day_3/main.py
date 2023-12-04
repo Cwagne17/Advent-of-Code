@@ -38,7 +38,7 @@ def check_left_right(lines, i, j):
 
 part_numbers = set()
 
-with open("example.txt") as f:
+with open("input.txt") as f:
     lines = f.read().splitlines()
 
     for i, row in enumerate(lines):
@@ -105,10 +105,8 @@ with open("example.txt") as f:
                 ):
                     part_numbers.add((i + 1, local_j1, lower_right_part_number))
 
-    for part in part_numbers:
+    sum = 0
+    for i, j, part_number in list(part_numbers):
         print(part)
-    # sum = 0
-    # for i, j, part_number in list(part_numbers):
-    #     print(part_number)
-    #     sum += int(part_number)
-    # print(sum)
+        sum += int(part_number)
+    print(sum)
