@@ -13,7 +13,7 @@ def check_for_adjacent_part_numbers(lines, i, j, direction=1):
         )
         local_j += direction
 
-    return part_number, local_j
+    return part_number, local_j - direction
 
 
 def check_left_right(lines, i, j):
