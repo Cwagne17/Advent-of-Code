@@ -17,42 +17,44 @@ with open("input.txt") as fin:
                 potential_part_number += column
             else:
                 if column in SYMBOLS:
-                    symbols.add((i, j, column))
+                    symbols.add((i, j, j, column))
 
                 if potential_part_number != "":
-                    numbers.add((i, local_j, potential_part_number))
+                    numbers.add(
+                        (
+                            i,
+                            local_j,
+                            local_j + len(potential_part_number) - 1,
+                            potential_part_number,
+                        )
+                    )
                     potential_part_number = ""
 
     # Check if any part numbers are adjacent to symbols
     for symbol in symbols:
         for part in numbers:
-            for iter in range(len(part[2])):
-                directions = [
-                    (0, 1),
-                    (0, -1),
-                    (1, 0),
-                    (-1, 0),
-                    (1, 1),
-                    (1, -1),
-                    (-1, 1),
-                    (-1, -1),
-                ]
-                flag = False
-                for x_offset, y_offset in directions:
-                    for k in range(len(part[2])):
-                        if (
-                            part[0] + x_offset,
-                            part[1] + iter + y_offset,
-                            symbol[2],
-                        ) == symbol:
-                            flag = True
-                            break
+            directions = [
+                (0, 1),
+                (0, -1),
+                (1, 0),
+                (-1, 0),
+                (1, 1),
+                (1, -1),
+                (-1, 1),
+                (-1, -1),
+            ]
+            flag = False
+            for x_offset, y_offset in directions:
+                if symbol[0] + x_offset == part[0] and symbol[1] + y_offset in range(
+                    part[1], part[2] + 1
+                ):
+                    flag = True
 
-                if flag:
-                    if part not in seen:
-                        seen.add(part)
+            if flag:
+                if part not in seen:
+                    seen.add(part)
 
 sum = 0
 for part in seen:
-    sum += int(part[2])
+    sum += int(part[3])
 print(sum)
