@@ -67,19 +67,24 @@ def map_seed_range_to_destination(almanac, source, seed_range_start, seed_range_
 
         for seed_start, seed_end in remaining_ranges:
             # Check for overlap between seed range and source range
+            # Case 1: No overlap
             if seed_end < source_start or seed_start > source_end:
                 # No overlap, add entire seed range to new_remaining_ranges
                 new_remaining_ranges.append((seed_start, seed_end))
+            # Case 2-4: Overlap in some capacity
             else:
                 # Calculate the overlapping part of the ranges
                 overlap_start = max(seed_start, source_start)
                 overlap_end = min(seed_end, source_end)
+                # Case 2: complete overlap + handles overlap for cases 3-4
                 # Add the mapped overlapping range to mappings
                 mappings.append((overlap_start + diff, overlap_end + diff))
 
                 # Add the non-overlapping parts to new_remaining_ranges
+                # Case 3: seed range is larger than source range
                 if seed_start < source_start:
                     new_remaining_ranges.append((seed_start, overlap_start - 1))
+                # Case 4: seed range is larger than source range
                 if seed_end > source_end:
                     new_remaining_ranges.append((overlap_end + 1, seed_end))
 
