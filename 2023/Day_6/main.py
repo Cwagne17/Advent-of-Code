@@ -1,4 +1,6 @@
 from math import prod
+from math import isqrt
+import time as t
 
 
 def parse_input_for_part_one(data):
@@ -17,8 +19,31 @@ def parse_input_for_part_two(data):
     ]
 
 
+def part_one_quadratic(races):
+    race_numbers_of_ways = []
+
+    start_time = t.time_ns()
+
+    for time, distance in races:
+        # Calculate the discriminant
+        discriminant = time**2 - 4 * distance
+
+        # Check if the discriminant is non-negative
+        if discriminant >= 0:
+            # Calculate the number of ways using integer square root
+            ways = isqrt(discriminant)
+            race_numbers_of_ways.append(ways)
+        else:
+            # If the discriminant is negative, no real roots, append 0
+            race_numbers_of_ways.append(0)
+
+    print("Time:", t.time_ns() - start_time, "ns")
+    return prod(race_numbers_of_ways)
+
+
 def part_one(races):
     race_number_of_ways = []
+    start_time = t.time_ns()
 
     for time, distance in races:
         number_of_ways = 0
@@ -47,6 +72,7 @@ def part_one(races):
 
         race_number_of_ways.append(number_of_ways)
 
+    print("Time:", t.time_ns() - start_time, "ns")
     return prod(race_number_of_ways)
 
 
@@ -54,10 +80,18 @@ with open("example.txt") as f:
     data = f.read().splitlines()
 
     print("Part 1 Example:", part_one(parse_input_for_part_one(data)))
+    print(
+        "Part 1 Example Quadratic:", part_one_quadratic(parse_input_for_part_one(data))
+    )
     print("Part 2 Example:", part_one(parse_input_for_part_two(data)))
+    print(
+        "Part 2 Example Quadratic:", part_one_quadratic(parse_input_for_part_two(data))
+    )
 
 with open("input.txt") as f:
     data = f.read().splitlines()
 
     print("Part 1:", part_one(parse_input_for_part_one(data)))
+    print("Part 1 Quadratic:", part_one_quadratic(parse_input_for_part_one(data)))
     print("Part 2:", part_one(parse_input_for_part_two(data)))
+    print("Part 2 Quadratic:", part_one_quadratic(parse_input_for_part_two(data)))
